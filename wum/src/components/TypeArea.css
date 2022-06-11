@@ -1,0 +1,24 @@
+.next {
+  margin-right: inherit
+}
+
+.correct {
+  color: #00ad00;
+}
+
+.incorrect {
+  color: #ad0000;
+}
+
+.future {
+  color: #808080;
+}
+
+.area {
+  background-color: #303030;
+  
+  display: flex;  
+  flex-wrap: wrap;
+  width: 40%;
+  height: 200px;
+}
