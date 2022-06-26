@@ -1,3 +1,4 @@
+import React from 'react';
 import { useLanguageContext, LanguageDef as ld } from "../Localization";
 import TypeArea from "../components/TypeArea";
 
