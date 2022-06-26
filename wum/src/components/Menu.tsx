@@ -1,12 +1,15 @@
+import React from 'react';
 import { Link } from "react-router-dom";
-import "./Menu.css";
+import "../assets/Menu.css";
 import { slide as BurgerMenu } from "react-burger-menu";
 import { LanguageDef as ld, Flags, useLanguageContext } from "../Localization";
 import { useUserContext } from "../User";
 
 type LanguageUpdate = (a: string) => void;
+type ThemeUpdate = (a: string) => void;
 type MenuProps = {
   onLanguageChanged: LanguageUpdate;
+  onThemeChanged: ThemeUpdate;
 };
 
 function AccountOptions() {
@@ -50,17 +53,22 @@ export function Menu(props: MenuProps) {
       <Link id="about" className="menu-item" to="/about">
         {ld.formatString(ld.about)}
       </Link>
+
+
+      <div className="bm-bottompane">
+      <button onClick={(e) => props.onThemeChanged('light')}>light</button>
+      <button onClick={(e) => props.onThemeChanged('dark')}>dark</button>
+      <br></br>
       {Flags.map((country) => {
         return (
-          <img
-            key={country.code}
+          <button key={country.code} className="bm-flag"><img
             alt={country.code}
             src={country.flagFilename}
-            onClick={(msg) => props.onLanguageChanged(country.code)}
+            onClick={() => props.onLanguageChanged(country.code)}
             className="flag"
-          />
+          /></button>
         );
-      })}
+      })}</div>
     </BurgerMenu>
   );
 }

@@ -82,8 +82,19 @@
 }
 
 .bm-flag {
-    position: absolute;
-    bottom: 2%
+    bottom: 2%;
+}
+
+.bm-bottompane {
+  display: flexbox;
+  bottom: 5%;
+  max-height: 10%;
+  position: absolute;
+}
+
+img {
+  width: 100px;
+  height: 80px;
 }
 
 /* Styling of overlay */

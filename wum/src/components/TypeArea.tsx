@@ -1,7 +1,7 @@
 import { Component, Reducer } from "react";
 import { createContext, useContext, useReducer } from "react";
 import { createNoSubstitutionTemplateLiteral } from "typescript";
-import "./TypeArea.css";
+import "../assets/TypeArea.css";
 
 type TypeAreaProps = {
   text: string;

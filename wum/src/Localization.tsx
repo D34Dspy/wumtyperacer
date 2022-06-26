@@ -1,7 +1,7 @@
 import { createContext, useContext } from "react";
 import LocalizedStrings from "react-localization";
-import Germany from "./GermanFlag.png";
-import UnitedStates from "./UnitedStatesFlag.png";
+import Germany from "./assets/Germany.png";
+import UnitedStates from "./assets/UnitedKingdom.png";
 
 export const LanguageContext = createContext("de");
 
@@ -21,6 +21,9 @@ export const LanguageDef = new LocalizedStrings({
     aboutCreator: "Brought to you by Konrad Elsner und Domenic Reckrühm",
     aboutIssuers: "Auftrag von Toni Barth",
     aboutInstitute: "Hochschule Anhalt FB5",
+    confirmDelete: "Are you sure you want to delete your player?",
+    delete: "Delete",
+    cancel: "cancel",
   },
   de: {
     login: "Einloggen",
@@ -35,6 +38,9 @@ export const LanguageDef = new LocalizedStrings({
     aboutCreator: "Gebracht durch Konrad Elsner und Domenic Reckrühm",
     aboutIssuers: "Auftrag von Toni Barth",
     aboutInstitute: "Hochschule Anhalt FB5",
+    confirmDelete: "Sind sie sich sicher, dass sie ihren Charakter löschen wollen?",
+    delete: "Löschen",
+    cancel: "Abbrechen",
   },
 });
 

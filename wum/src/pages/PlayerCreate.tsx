@@ -1,6 +1,8 @@
+import React from 'react';
 import { useLanguageContext, LanguageDef as ld } from "../Localization";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import '../assets/PlayerCreate.css'
 
 type LoginEvent = (userName: string, passWord: string) => void;
 type LoginProps = {
@@ -13,7 +15,7 @@ export default function Login(props: LoginProps) {
   const language = useLanguageContext();
   ld.setLanguage(language);
   return (
-    <div>
+    <div className="MainFrame">
       <label>{ld.formatString(ld.username)}</label>
       <br />
       <input

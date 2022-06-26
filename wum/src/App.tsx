@@ -1,10 +1,11 @@
+import React from 'react';
 import { useState } from "react";
 import { HashRouter, Route, Routes } from "react-router-dom";
-import logo from "./logo.svg";
-import "./App.css";
+import logo from "./assets/logo.svg";
+import "./assets/App.css";
 import { Menu as BurgerMenu } from "./components/Menu";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+import Login from "./pages/PlayerCreate";
+import Register from "./pages/PlayerDelete";
 import About from "./pages/About";
 import Logout from "./pages/Logout";
 import { LanguageContext } from "./Localization";
@@ -29,10 +30,28 @@ function ReactExample() {
   );
 }
 
+type ThemeConfig = {
+  name: string;
+  value: string;
+}
+let Themes: { [key: string]: ThemeConfig []} = {};
+
+Themes['light'] = [ { name: '--main-color', value: '#cccccc' },
+                    { name: '--fore-color', value: '#262626'} ];
+Themes['dark'] = [ { name: '--main-color', value: '#262626' },
+                   { name: '--fore-color', value: '#cccccc'} ];
+
 function App() {
   const [language, setLanguage] = useState("en");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(Guest);
+  const [theme, setTheme] = useState('dark');
+
+  const setThemeHook = (name: string) => {
+    for (const value of Themes[name])
+      document.documentElement.style.setProperty(value.name, value.value);
+    setTheme(name);
+  };
 
   const handleLogin = (userName: string, passWord: string) => {
     setUser({ userName: userName, loggedIn: true });
@@ -49,10 +68,13 @@ function App() {
       <UserContext.Provider value={user}>
         <div className="App">
           <HashRouter>
-            <BurgerMenu onLanguageChanged={(code) => setLanguage(code)} />
+            <BurgerMenu 
+              onLanguageChanged={(code) => setLanguage(code)} 
+              onThemeChanged={setThemeHook} />
+            <br/>
             <Routes>
-              <Route path="/login" element={<Login onLogin={handleLogin} />} />
-              <Route path="/register" element={<Register />} />
+              <Route path="/playerCreate" element={<Login onLogin={handleLogin} />} />
+              <Route path="/delete" element={<Register />} />
               <Route path="/about" element={<About />} />
               <Route
                 path="/logout"
