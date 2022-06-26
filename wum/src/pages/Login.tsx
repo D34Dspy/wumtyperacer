@@ -1,6 +1,7 @@
 import { useLanguageContext, LanguageDef as ld } from "../Localization";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+const css = require('./log.css')
 
 type LoginEvent = (userName: string, passWord: string) => void;
 type LoginProps = {
@@ -13,25 +14,25 @@ export default function Login(props: LoginProps) {
   const language = useLanguageContext();
   ld.setLanguage(language);
   return (
-    <div>
-      <label>{ld.formatString(ld.username)}</label>
+    <div className="log_box">
+      <label className="log_text">{ld.formatString(ld.username)}</label>
       <br />
-      <input
+      <input className="log_input"
         id="username"
         onChange={(e) => setUserName(e.target.value)}
         value={userName}
       ></input>
       <br />
-      <label>{ld.formatString(ld.password)}</label>
+      <label className="log_text">{ld.formatString(ld.password)}</label>
       <br />
-      <input
+      <input className="log_input"
         id="password"
         onChange={(e) => setPassWord(e.target.value)}
         value={passWord}
       ></input>
       <br />
-      <Link id="logout" to="/">
-        <button onClick={() => props.onLogin(userName, passWord)}>
+      <Link  id="logout" to="/">
+        <button className="log_button" onClick={() => props.onLogin(userName, passWord)}>
           {ld.formatString(ld.login)}
         </button>
       </Link>

@@ -50,6 +50,7 @@ function App() {
         <div className="App">
           <HashRouter>
             <BurgerMenu onLanguageChanged={(code) => setLanguage(code)} />
+            <br></br>
             <Routes>
               <Route path="/login" element={<Login onLogin={handleLogin} />} />
               <Route path="/register" element={<Register />} />

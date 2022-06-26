@@ -10,11 +10,11 @@ export default function Logout(props: LogoutProps) {
   const language = useLanguageContext();
   ld.setLanguage(language);
   return (
-    <div>
-      <label>{ld.formatString(ld.confirmLogout)}</label>
+    <div className="log_box">
+      <label className="log_text">{ld.formatString(ld.confirmLogout)}</label>
       <br />
       <Link id="logout" to="/">
-        <button onClick={() => props.onLogout()}>
+        <button className="log_button" onClick={() => props.onLogout()}>
           {ld.formatString(ld.logout)}
         </button>
       </Link>
