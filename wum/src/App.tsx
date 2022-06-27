@@ -7,7 +7,7 @@ import { Menu as BurgerMenu } from "./components/Menu";
 import Login from "./pages/PlayerCreate";
 import Register from "./pages/PlayerDelete";
 import About from "./pages/About";
-import Logout from "./pages/Logout";
+
 import { LanguageContext } from "./Localization";
 import { UserContext, Guest } from "./User";
 
@@ -78,7 +78,6 @@ function App() {
               <Route path="/about" element={<About />} />
               <Route
                 path="/logout"
-                element={<Logout onLogout={handleLogout} />}
               />
               <Route path="/" element={<ReactExample />}></Route>
             </Routes>
