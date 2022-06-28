@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import "../assets/Menu.css";
 import { slide as BurgerMenu } from "react-burger-menu";
-import { LanguageDef as ld, Flags, useLanguageContext } from "../Localization";
-import { useUserContext } from "../User";
+import { LanguageDef as ld, Flags, useLanguageContext } from "../core/Localization";
+import { useUserContext } from "../core/User";
 
 type LanguageUpdate = (a: string) => void;
 type ThemeUpdate = (a: string) => void;

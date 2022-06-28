@@ -7,9 +7,9 @@ import { Menu as BurgerMenu } from "./components/Menu";
 import Login from "./pages/PlayerCreate";
 import Register from "./pages/PlayerDelete";
 import About from "./pages/About";
-import Logout from "./pages/Logout";
-import { LanguageContext } from "./Localization";
-import { UserContext, Guest } from "./User";
+import { LanguageContext } from "./core/Localization";
+import { UserContext, Guest } from "./core/User";
+import { Themes } from './core/Theme';
 
 function ReactExample() {
   return (
@@ -29,17 +29,6 @@ function ReactExample() {
     </header>
   );
 }
-
-type ThemeConfig = {
-  name: string;
-  value: string;
-}
-let Themes: { [key: string]: ThemeConfig []} = {};
-
-Themes['light'] = [ { name: '--main-color', value: '#cccccc' },
-                    { name: '--fore-color', value: '#262626'} ];
-Themes['dark'] = [ { name: '--main-color', value: '#262626' },
-                   { name: '--fore-color', value: '#cccccc'} ];
 
 function App() {
   const [language, setLanguage] = useState("en");
@@ -76,10 +65,6 @@ function App() {
               <Route path="/playerCreate" element={<Login onLogin={handleLogin} />} />
               <Route path="/delete" element={<Register />} />
               <Route path="/about" element={<About />} />
-              <Route
-                path="/logout"
-                element={<Logout onLogout={handleLogout} />}
-              />
               <Route path="/" element={<ReactExample />}></Route>
             </Routes>
           </HashRouter>
