@@ -1,6 +1,11 @@
 :root {
   --main-color: #262253;
   --fore-color: #cccccc;
+
+--background-color-1: #DECDF5;
+--background-color-2: #A99CE1;
+--background-color-3: #23a6d5;
+--background-color-4: #23d5ab;
 }
 
 .App {
