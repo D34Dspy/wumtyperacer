@@ -37,14 +37,23 @@ body {
     
 
 }
+
 .log_text{
     font-size: 2em;
     color: var(--fore-color);
     font-weight: 650;
     float: middle;
     font-size: 2em;
-        
 }
+
+.log_error{
+    font-size: 2em;
+    color: red;
+    font-weight: 650;
+    float: middle;
+    font-size: 2em;
+}
+
 
 .log_button{
     border: 2px solid black;

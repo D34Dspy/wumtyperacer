@@ -17,6 +17,10 @@ function AccountOptions() {
   if (!user.loggedIn) {
     return (
       <div>
+        <Link id="dashboard" className="bm-item menu-item" to="/">
+          {ld.formatString(ld.home)}
+        </Link>
+        <br />
         <Link id="login" className="bm-item menu-item" to="/login">
           {ld.formatString(ld.login)}
         </Link>
@@ -30,6 +34,10 @@ function AccountOptions() {
     return (
       <div>
         <label className="bm-user">{user.userName}</label>
+        <br />
+        <Link id="dashboard" className="bm-item menu-item" to="/">
+          {ld.formatString(ld.dashboard)}
+        </Link>
         <br />
         <Link id="logout" className="bm-item menu-item" to="/logout">
           {ld.formatString(ld.logout)}
@@ -47,8 +55,8 @@ export function Menu(props: MenuProps) {
   return (
     <BurgerMenu>
       <AccountOptions />
-      <Link id="dashboard" className="menu-item" to="/dashboard">
-        {ld.formatString(ld.dashboard)}
+      <Link className="menu-item" to="/leaderboards">
+        {ld.formatString(ld.leaderboards)}
       </Link>
       <Link id="about" className="menu-item" to="/about">
         {ld.formatString(ld.about)}
@@ -56,19 +64,19 @@ export function Menu(props: MenuProps) {
 
 
       <div className="bm-bottompane">
-      <button className="bm-light" onClick={(e) => props.onThemeChanged('light')}>light</button>
-      <button className="bm-dark" onClick={(e) => props.onThemeChanged('dark')}>dark</button>
-      <br ></br>
-      {Flags.map((country) => {
-        return (
-          <button key={country.code} className="bm-flag"><img
-            alt={country.code}
-            src={country.flagFilename}
-            onClick={() => props.onLanguageChanged(country.code)}
-            className="flag"
-          /></button>
-        );
-      })}</div>
+        <button className="bm-light" onClick={(e) => props.onThemeChanged('light')}>light</button>
+        <button className="bm-dark" onClick={(e) => props.onThemeChanged('dark')}>dark</button>
+        <br ></br>
+        {Flags.map((country) => {
+          return (
+            <button key={country.code} className="bm-flag"><img
+              alt={country.code}
+              src={country.flagFilename}
+              onClick={() => props.onLanguageChanged(country.code)}
+              className="flag"
+            /></button>
+          );
+        })}</div>
     </BurgerMenu>
   );
 }
