@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLanguageContext, LanguageDef as ld } from "../Localization";
+import { useLanguageContext, LanguageDef as ld } from "../core/Localization";
 import TypeArea from "../components/TypeArea";
 
 export default function About() {

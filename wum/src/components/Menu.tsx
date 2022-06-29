@@ -56,9 +56,9 @@ export function Menu(props: MenuProps) {
 
 
       <div className="bm-bottompane">
-      <button onClick={(e) => props.onThemeChanged('light')}>light</button>
-      <button onClick={(e) => props.onThemeChanged('dark')}>dark</button>
-      <br></br>
+      <button className="bm-light" onClick={(e) => props.onThemeChanged('light')}>light</button>
+      <button className="bm-dark" onClick={(e) => props.onThemeChanged('dark')}>dark</button>
+      <br ></br>
       {Flags.map((country) => {
         return (
           <button key={country.code} className="bm-flag"><img
