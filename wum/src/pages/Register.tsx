@@ -55,6 +55,13 @@ export default function Register(props: RegisterProps) {
         value={passWord}
       ></input>
       <br />
+      <label className="log_text">{ld.formatString(ld.repeatPassword)}</label>
+      <br />
+      <input className="log_input"
+        id="password2"
+
+      ></input>
+      <br />
       <button className="log_button" onClick={() => registerHook(userName, passWord)}>
         {ld.formatString(ld.register)}
       </button>

@@ -15,6 +15,7 @@ export const LanguageDef = new LocalizedStrings({
     about: "About",
     username: "Username",
     password: "Password",
+    repeat_password:"Repeat password",
     logout: "Logout",
     confirmPassword: "Confirm password",
     confirmLogout: "Are you sure that you wan't to log out?",
@@ -24,6 +25,9 @@ export const LanguageDef = new LocalizedStrings({
     confirmDelete: "Are you sure you want to delete your player?",
     delete: "Delete",
     cancel: "cancel",
+    home: "home",
+    light: "light",
+    dark: "dark",
   },
   de: {
     login: "Einloggen",
@@ -31,7 +35,8 @@ export const LanguageDef = new LocalizedStrings({
     dashboard: "Armaturenbretts",
     about: "Über",
     username: "Username",
-    password: "Password",
+    password: "Passwort",
+    repeat_password: "Wiederhole Passwort",
     logout: "Ausloggen",
     confirmPassword: "Password bestätigen",
     confirmLogout: "Sind sie sich sicher, dass sie sich ausloggen wollen?",
@@ -41,6 +46,9 @@ export const LanguageDef = new LocalizedStrings({
     confirmDelete: "Sind sie sich sicher, dass sie ihren Charakter löschen wollen?",
     delete: "Löschen",
     cancel: "Abbrechen",
+    home: "Startbildschirm",
+    light: "hell",
+    dark: "dunkel",
   },
 });
 

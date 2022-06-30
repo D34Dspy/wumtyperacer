@@ -5,6 +5,7 @@ import { useState, useEffect, useReducer } from "react";
 import useLeaderboard from '../core/Leaderboard'
 import { useMapper } from '../core/Pages';
 import Cfg from '../core/Config';
+import '../assets/table.css'
 
 export default function Leaderboard() {
     const [leaderboard, dispatch] = useLeaderboard();
@@ -25,11 +26,11 @@ export default function Leaderboard() {
     });
 
     return (
-        <div className="log_box">
+        <div className="table_box">
             <table>
                 {useMapper(leaderboard.content, leaderboard, (p) => {
                     console.log(p);
-                    return <tr>
+                    return <tr className="table_text">
                         <td>{p.id}</td>
                         <td>{p.name}</td>
                         <td>{p.best_cpm}</td>
@@ -37,7 +38,7 @@ export default function Leaderboard() {
                     </tr>
                 })}
             </table>
-            <button onClick={() => setIsFetched(false)}>refresh</button>
+            <button className="table_button" onClick={() => setIsFetched(false)}>refresh</button>
             <br />
         </div>
     );
