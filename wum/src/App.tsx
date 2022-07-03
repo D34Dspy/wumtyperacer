@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState } from "react";
+import React, { useState, useContext } from 'react'
 import { HashRouter, Route, Routes } from "react-router-dom";
 import "./assets/App.css";
 import { Menu as BurgerMenu } from "./components/Menu";
@@ -47,6 +46,8 @@ function App() {
     setUser(Guest);
   };
 
+
+
   return (
     <LanguageContext.Provider value={language}>
       <UserContext.Provider value={user}>
@@ -54,9 +55,11 @@ function App() {
           <HashRouter>
             <BurgerMenu
               onLanguageChanged={(code) => setLanguage(code)}
-              onThemeChanged={setThemeHook} />
+              onThemeChanged={setThemeHook}
+               />
             <br />
             <Routes>
+              
               <Route path="/" element={<Home />}></Route>
               <Route path="/login" element={<Login onLogin={handleLogin} />} />
               <Route path="/register" element={<Register onRegister={handleRegister} />} />
