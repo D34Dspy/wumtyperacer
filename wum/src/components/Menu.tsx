@@ -58,6 +58,9 @@ export function Menu(props: MenuProps) {
       <Link className="menu-item" to="/leaderboards">
         {ld.formatString(ld.leaderboards)}
       </Link>
+      <Link className="menu-item" to="/games">
+        {ld.formatString(ld.games)}
+      </Link>
       <Link id="about" className="menu-item" to="/about">
         {ld.formatString(ld.about)}
       </Link>

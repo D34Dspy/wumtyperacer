@@ -8,6 +8,7 @@ import Register from "./pages/Register";
 import About from "./pages/About";
 import Logout from "./pages/Logout";
 import Home from "./pages/Home";
+import Games from "./pages/Games";
 import Leaderboard from "./pages/Leaderboard";
 import { LanguageContext } from "./core/Localization";
 import { UserContext, Guest } from "./core/User";
@@ -47,6 +48,10 @@ function App() {
     setUser(Guest);
   };
 
+  const handleJoin = (id: number) => {
+    let _= id;
+  };
+
   return (
     <LanguageContext.Provider value={language}>
       <UserContext.Provider value={user}>
@@ -61,6 +66,7 @@ function App() {
               <Route path="/login" element={<Login onLogin={handleLogin} />} />
               <Route path="/register" element={<Register onRegister={handleRegister} />} />
               <Route path="/leaderboards" element={<Leaderboard />} />
+              <Route path="/games" element={<Games onJoin={handleJoin}/>} />
               <Route path="/about" element={<About />} />
               <Route path="/logout" element={<Logout onLogout={handleLogout} onCancel={() => { }} />} />
             </Routes>

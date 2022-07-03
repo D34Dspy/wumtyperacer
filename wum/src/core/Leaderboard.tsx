@@ -1,4 +1,5 @@
 import { useReducer } from "react";
+import { isAssertEntry } from "typescript";
 import usePageContext, { PageContainer, Page, usePages, useSortedMapping, useCompareDevice } from './Pages'
 
 type Entry = {
@@ -19,9 +20,9 @@ type State = {
     method: string,
 };
 
-type SortTypes = "sortcpm" | "sortscore" | "sortname";
+type SortTypes = "sortcpm" | "sortscore" | "sortname" | "nosort";
 type NavTypes = "next" | "previous" | "begin" | "end";
-type ControlTypes = "toggle" | "populate";
+type ControlTypes = "toggle" | "populate" | "invalidate";
 
 type PopulateAction = {
     type: "populate";
@@ -69,6 +70,13 @@ function Reducer(
             return {
                 ...state,
                 pages: usePages(useSortedMapping(content, SortMapping[`${reverse ? "reverse_" : ""}${type}`]), PageSize),
+                page: 0,
+            };
+        case "nosort":
+            return {
+                ...state,
+                method: type,
+                pages: [],
                 page: 0
             };
         case "next":
@@ -79,16 +87,22 @@ function Reducer(
             return { ...state, ...pc.begin().unwrap()};
         case "end":
             return { ...state, ...pc.end().unwrap()};
+        case "invalidate":
+            return { ...state, initialized: false };
         default:
             throw `leaderboard reducer unhandled action ${type}`;
     }
 }
 
-export default () => useReducer(Reducer, {
+export default (nosort=false) => useReducer(Reducer, {
     content: [],
     pages: [],
     page: -1,
     initialized: false,
     reverse: false,
-    method: DefaultSort,
-})
+    method: nosort ? "nosort" : DefaultSort,
+});
+
+export function playerById(player_id: number, content: Entry[]): Entry | undefined {
+    return content.find((entry) => entry.id === player_id);
+}

@@ -15,6 +15,14 @@ export function useMapping < T > (elements: T[]): number[] {
 
 export function useCompareDevice(column: any, reverse: boolean = false, binary = false) {
     const greater = reverse ? -1 : 1;
+    if(binary)
+        return (a: any, b: any) => {
+            if(column(a) === false && column(b) === true)
+                return -greater;
+            if(column(a) === true && column(b) === false)
+                return greater;
+            return 0;
+        };
     return column instanceof Function ? (a: any, b: any) => {
         if (column(a) < column(b))
             return -greater;
@@ -54,13 +62,30 @@ export function useMapper < T, T2 = any > (content: T[], pc: PageContainer, mapp
     }
 }
 
-export function useUnmapper<T>(content: any[]) {
+export function useUnmapper<T, T2>(content: T2[]) {
     return (i: number) => content[i];
 }
 
 export function useTargetUnmapper<T>(content: any[], accessor: T) {
     const unmap = useUnmapper(content);
-    return (i: number) => accessor instanceof Function ? accessor(unmap(i)) : unmap(i)[accessor];
+/*
+export type Accessor<D extends object> = (
+    originalRow: D,
+    index: number,
+    sub: {
+        subRows: D[];
+        depth: number;
+        data: D[];
+    },
+) => CellValue;
+*/
+    return (i: number) => {
+        return {
+            originalRow: accessor instanceof Function ? accessor(unmap(i)) : unmap(i)[accessor],
+            index: i,
+            sub: { subRows: [], depth: 0, data: []}
+        }
+    }
 }
 
 export class PageContext {

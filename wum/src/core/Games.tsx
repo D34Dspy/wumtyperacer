@@ -1,9 +1,11 @@
 import { useReducer, useState } from "react";
 import usePageContext, { PageContainer, Page, usePages, useSortedMapping, useMapping, useCompareDevice } from './Pages'
 
+// stronghold for game data
+
 type Entry = {
-  "id": 0,
-  "running": false,
+  "id": number,
+  "running": boolean,
   "currentWord": number,
   "players": number [],
   "owner": number,
@@ -30,7 +32,7 @@ type State = {
 
 type SortTypes = "sortrunning" | "sortplayers" | "sortname" | "nosort";
 type NavTypes = "next" | "previous" | "begin" | "end";
-type ControlTypes = "toggle" | "populate";
+type ControlTypes = "toggle" | "populate" | "invalidate";
 
 type PopulateAction = {
     type: "populate";
@@ -38,7 +40,7 @@ type PopulateAction = {
 }
 type Action = { type: SortTypes | NavTypes | ControlTypes } | PopulateAction;
 
-const DefaultSort = "sortscore";
+const DefaultSort = "sortplayers";
 const PageSize = 8;
 
 function Reducer(
@@ -83,6 +85,8 @@ function Reducer(
             return { ...state, ...pc.begin().unwrap()};
         case "end":
             return { ...state, ...pc.end().unwrap()};
+        case "invalidate":
+            return { ...state, initialized: false };
         default:
             console.log("unhandled " + type);
             return state;

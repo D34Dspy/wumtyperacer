@@ -34,6 +34,13 @@ const def: Languages = {
     passAtleast1Letter: "Password has to have a contain a letter",
     passAtleast1Punct: "Password has to have a contain a special char",
     leaderboards: "leaderboards",
+    games: "games",
+    gameIsRunning: "running",
+    gameOwner: "owner",
+    gameParticipants: "players",
+    playerName: "name",
+    playerCPM: "cpm",
+    playerScore: "score",
   },
   de: {
     login: "Einloggen",

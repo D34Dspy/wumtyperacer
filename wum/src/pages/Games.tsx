@@ -1,167 +1,127 @@
 import React from 'react';
 import { useLanguageContext, LanguageDef as ld } from "../core/Localization";
 import useGames from "../core/Games";
+import useLeaderboard, { playerById } from "../core/Leaderboard";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useTable } from 'react-table'
 import Cfg from '../core/Config';
-import { useTargetUnmapper } from '../core/Pages';
-import "react-table/react-table.css";
+import { useUnmapper } from '../core/Pages';
+import "../assets/table.css";
 import { getDefaultFormatCodeSettings } from 'typescript';
 
-type LogoutEvent = () => void;
-type LogoutProps = {
-  onLogout: LogoutEvent;
-};
+type GamesProps = {
+  onJoin: (game_id: number) => void;
+}
 
-export default function Games(props: LogoutProps) {
-  const [games, dispatch] = useGames();
-    const language = useLanguageContext();
-    ld.setLanguage(language);
-    const [isFetched, setIsFetched] = useState(false);
-
-    /*
+const games_mock = [{
   "id": 0,
   "running": false,
-  "currentWord": number,
-  "players": number [],
-  "owner": number,
-  "winner": number,
-  "points": number []
-    */
-       
+  "currentWord": 0,
+  "players": [0, 1, 2, 3],
+  "owner": 0,
+  "winner": 0,
+  "points": []
 
-    const data = React.useMemo(() => games.content, []);
-const columns = React.useMemo(
-  () => [
-    {
-      Header: 'Currently Running',
-      accessor: useTargetUnmapper(games.content, 'running'),
-    },
-    {
-      Header: 'Owner',
-      accessor: useTargetUnmapper(games.content, 'owner'), // TODO show name
-    },
-    {
-      Header: 'Players',
-      accessor: useTargetUnmapper(games.content, (game: any) => game.players.length), 
-    },
-  ],
-  []
-);
-     
+}, {
+  "id": 1,
+  "running": true,
+  "currentWord": 4,
+  "players": [4, 5, 6],
+  "owner": 5,
+  "winner": 0,
+  "points": []
+}];
 
-   const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable({ columns, data })
+const players_mock = [
+  "nigger",
+  "hello",
+  "world",
+  "fuck you",
+  "haha",
+  "melvin",
+].map((name, i) => {
+  return {
+    id: i,
+    name: name,
+    best_cpm: 0,
+    best_score: 0,
+  }
+});
 
-    useEffect(() => {
-        if (!isFetched) {
-            console.log("fetching leaderboard");
-            Cfg.get("/games/",
-                (games) => dispatch({ type: "populate", content: games }),
-                (response) => {
-                    console.log(response);
-                    throw "unable to acquire players";
-                });
-            setIsFetched(true);
-        }
-    });
+export default function Games(props: GamesProps) {
+  let _ = props;
+  const language = useLanguageContext();
+  ld.setLanguage(language);
 
-  return (
-    <div className="log_box">
-    <table {...getTableProps()} style={{ border: 'solid 1px blue' }}>
+  const [leaderboard, dispatch_leaderboard] = useLeaderboard(true);
+  const [games, dispatch_games] = useGames();
 
-<thead>
+  if (leaderboard.initialized === false) {
+    Cfg.get("/players/",
+      (players) => dispatch_leaderboard({ type: "populate", content: players }),
+      (response) => {
+        console.log(response);
+        throw "unable to acquire players";
+      });
 
-  {headerGroups.map(headerGroup => (
+  }
+  if (games.initialized === false) {
+    Cfg.get("/games/",
+      (games) => dispatch_games({ type: "populate", content: games }),
+      (response) => {
+        console.log(response);
+        throw "unable to acquire games";
+      });
+  }
 
-    <tr {...headerGroup.getHeaderGroupProps()}>
+  const unmapper = useUnmapper(games.content);
+  const data = React.useMemo(() => games.pages.length > 0 ? games.pages[games.page].indices.map((page_entry) => {
+    const entry = unmapper(page_entry);
+    const owner = playerById(entry["owner"], leaderboard.content);
+    const players = entry["players"].map(i => playerById(i, leaderboard.content));
+    const getPlayerName = (player: any) => player ? player.name : "unknown";
+    return {
+      ...entry,
+      player_count: entry["players"].length,
+      player_names: players.map(getPlayerName),
+      owner_name: getPlayerName(owner),
+    }
+  }) : [], [games.page, games.pages.length]);
 
-      {headerGroup.headers.map(column => (
-
-        <th
-
-          {...column.getHeaderProps()}
-
-          style={{
-
-            borderBottom: 'solid 3px red',
-
-            background: 'aliceblue',
-
-            color: 'black',
-
-            fontWeight: 'bold',
-
-          }}
-
-        >
-
-          {column.render('Header')}
-
-        </th>
-
-      ))}
-
-    </tr>
-
-  ))}
-
-</thead>
-
-<tbody {...getTableBodyProps()}>
-
-  {rows.map(row => {
-
-    prepareRow(row)
-
-    return (
-
-      <tr {...row.getRowProps()}>
-
-        {row.cells.map(cell => {
-
-          return (
-
-            <td
-
-              {...cell.getCellProps()}
-
-              style={{
-
-                padding: '10px',
-
-                border: 'solid 1px gray',
-
-                background: 'papayawhip',
-
-              }}
-
-            >
-
-              {cell.render('Cell')}
-
+  return 
+  (<div className="ReactTable">
+      <button onClick={() => {
+        dispatch_leaderboard({
+          type: "invalidate",
+        });
+        dispatch_games({
+          type: "invalidate",
+        });
+      }}>refresh</button>
+      <table>
+        <thead>
+          <td>{ld.formatString(ld.gameIsRunning)}</td>
+          <td>{ld.formatString(ld.gameOwner)}</td>
+          <td>{ld.formatString(ld.gameParticipants)}</td>
+        </thead>
+        <tbody>
+          {data.map((game) => (<tr>
+            <td>
+              {game.running}
             </td>
-
-          )
-
-        })}
-
-      </tr>
-
-    )
-
-  })}
-
-</tbody>
-
-</table>
-    </div>
-  );
+            <td>
+              {game.owner_name}
+            </td>
+            <td>
+              {game.player_count}
+            </td>
+            <td>
+              <button onClick={() => props.onJoin(game.id)}>join</button>
+            </td>
+          </tr>))}
+        </tbody>
+      </table>
+    </div>);
 }
 
