@@ -9,40 +9,56 @@ export type PageContainer = {
     page: number,
 };
 
-export function useMapping < T > (elements: T[]): number[] {
+export function useMapping<T>(elements: T[]): number[] {
     return elements.map((val, i) => i);
 }
 
-export function useCompareDevice(column: any, reverse: boolean = false, binary = false) {
+type SortType = "default" | "binary" | "string";
+
+export function useCompareDevice(column: any, reverse: boolean = false, type: SortType = "default") {
     const greater = reverse ? -1 : 1;
-    if(binary)
-        return (a: any, b: any) => {
-            if(column(a) === false && column(b) === true)
-                return -greater;
-            if(column(a) === true && column(b) === false)
-                return greater;
-            return 0;
-        };
-    return column instanceof Function ? (a: any, b: any) => {
-        if (column(a) < column(b))
-            return -greater;
-        if (column(a) > (column(b)))
-            return greater;
-        return 0;
-    } : (a: any, b: any) => {
-        if (a[column] < b[column])
-            return -greater;
-        if (a[column] > b[column])
-            return greater;
-        return 0;
-    };
+
+    switch (type) {
+        case "binary":
+            return (a: any, b: any) => {
+                if (column(a) === false && column(b) === true)
+                    return -greater;
+                if (column(a) === true && column(b) === false)
+                    return greater;
+                return 0;
+            };
+        default:
+        case "default":
+            return column instanceof Function ? (a: any, b: any) => {
+                if (column(a) < column(b))
+                    return -greater;
+                if (column(a) > column(b))
+                    return greater;
+                return 0;
+            } : (a: any, b: any) => {
+                if (a[column] < b[column])
+                    return -greater;
+                if (a[column] > b[column])
+                    return greater;
+                return 0;
+            };
+        case "string":
+            return column instanceof Function ? (a: any, b: any) => {
+                return greater * column(a).localeCompare(column(b));
+            } : (a: any, b: any) => {
+                return greater * a[column].localeCompare(b[column]);
+            };
+    }
 }
 
-export function useSortedMapping < T > (elements: T[], callback: (a: T, b: T) => number) {
-    return useMapping(elements).sort((a, b) => callback(elements[a], elements[b]));
+export function useSortedMapping<T>(elements: T[], callback: (a: T, b: T) => number) {
+    const unsortedMapping = useMapping(elements);
+    const unwrap = (a: number, b: number) => callback(elements[a], elements[b]);
+    const sortedMapping = unsortedMapping.sort(unwrap);
+    return sortedMapping;
 }
 
-export function usePages < T > (indices: number[], step: number = MaxItemsPerPage): Page[] {
+export function usePages<T>(indices: number[], step: number = MaxItemsPerPage): Page[] {
     const size = indices.length;
     const pageCount = Math.floor(size / step) + (size % step > 0 ? 1 : 0);
     var pages: Page[] = [];
@@ -56,34 +72,23 @@ export function usePages < T > (indices: number[], step: number = MaxItemsPerPag
     return pages;
 }
 
-export function useMapper < T, T2 = any > (content: T[], pc: PageContainer, mapper: (e: T) => T2): any {
+export function useMapper<T, T2 = any>(content: T[], pc: PageContainer, mapper: (e: T) => T2): any {
     if (pc.pages.length > 0 && pc.page >= 0 && pc.page < pc.pages.length) {
         return pc.pages[pc.page].indices.map(i => mapper(content[i]));
     }
 }
 
 export function useUnmapper<T, T2>(content: T2[]) {
-    return (i: number) => content[i];
+    return (i: number) => ({ index: i, ...content[i] });
 }
 
 export function useTargetUnmapper<T>(content: any[], accessor: T) {
     const unmap = useUnmapper(content);
-/*
-export type Accessor<D extends object> = (
-    originalRow: D,
-    index: number,
-    sub: {
-        subRows: D[];
-        depth: number;
-        data: D[];
-    },
-) => CellValue;
-*/
     return (i: number) => {
         return {
             originalRow: accessor instanceof Function ? accessor(unmap(i)) : unmap(i)[accessor],
             index: i,
-            sub: { subRows: [], depth: 0, data: []}
+            sub: { subRows: [], depth: 0, data: [] }
         }
     }
 }

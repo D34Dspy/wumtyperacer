@@ -7,10 +7,14 @@ import reportWebVitals from './reportWebVitals';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
-root.render(
+/*root.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>
+);*/
+// TODO strict mode does not work with sorting
+root.render(
+  <App />
 );
 
 // If you want to start measuring performance in your app, pass a function

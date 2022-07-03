@@ -39,8 +39,8 @@ const SortMapping: { [key: string]: SortCallback } = {
     "reverse_sortcpm": useCompareDevice("best_cpm", true),
     "sortscore": useCompareDevice("best_score"),
     "reverse_sortscore": useCompareDevice("best_score", true),
-    "sortname": useCompareDevice("name"),
-    "reverse_sortname": useCompareDevice("name", true),
+    "sortname": useCompareDevice("name", false, "string"),
+    "reverse_sortname": useCompareDevice("name", true, "string"),
 };
 
 function Reducer(
@@ -70,6 +70,7 @@ function Reducer(
         case "sortname":
             return {
                 ...state,
+                method: type,
                 pages: usePages(useSortedMapping(content, SortMapping[`${reverse ? "reverse_" : ""}${type}`]), PageSize),
                 page: 0,
             };

@@ -17,8 +17,8 @@ type SortCallback = (a: Entry, b: Entry) => number;
 const SortMapping: { [key: string]: SortCallback } = {
     "sortrunning": useCompareDevice("running"),
     "reverse_sortrunning": useCompareDevice("running", true),
-    "sortplayers": useCompareDevice((player: Entry) => player.players.length),
-    "reverse_sortplayers": useCompareDevice((player: Entry) => player.players.length),
+    "sortplayers": useCompareDevice((game: Entry) => game.players.length),
+    "reverse_sortplayers": useCompareDevice((game: Entry) => game.players.length, true),
 }
 
 type State = {
@@ -55,8 +55,8 @@ function Reducer(
         state.content = content;
         type = state.method;
     } else if (action.type === "toggle") {
-        type = state.method;
         state.reverse = !state.reverse;
+        type = state.method;
     }
 
     const { content, reverse } = state;

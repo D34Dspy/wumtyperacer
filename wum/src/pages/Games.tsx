@@ -51,22 +51,21 @@ export default function Games(props: GamesProps) {
       player_names: players.map(getPlayerName),
       owner_name: getPlayerName(owner),
     }
-  }) : [], [games.page, games.pages.length]);
+  }) : [], [games.page, leaderboard.method, games.pages.length]);
 
   return ( //<div className="ReactTable">
     <div className="table_box">
+      <a>{games.reverse ? "reversed" : "normal"}</a>
       <button onClick={() => {
-        dispatch_leaderboard({
-          type: "invalidate",
-        });
-        dispatch_games({
-          type: "invalidate",
-        });
+        setIsFetched(false)
       }}>{ld.formatString(ld.refresh)}</button>
-      <button onClick={() => dispatch_games({ type: "next" })}>{ld.formatString(ld.nextPage)}</button>
       <button onClick={() => dispatch_games({ type: "previous" })}>{ld.formatString(ld.previousPage)}</button>
+      <button onClick={() => dispatch_games({ type: "next" })}>{ld.formatString(ld.nextPage)}</button>
       <button onClick={() => dispatch_games({ type: "begin" })}>{ld.formatString(ld.firstPage)}</button>
       <button onClick={() => dispatch_games({ type: "end" })}>{ld.formatString(ld.lastPage)}</button>
+      <button onClick={() => dispatch_games({ type: "toggle" })}>{ld.formatString(ld.reverseSort)}</button>
+      <button onClick={() => dispatch_games({ type: "sortrunning" })}>{ld.formatString(ld.gamesSortRunning)}</button>
+      <button onClick={() => dispatch_games({ type: "sortplayers" })}>{ld.formatString(ld.gamesSortPlayers)}</button>
       <table>
         <thead>
           <tr>

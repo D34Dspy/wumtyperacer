@@ -50,6 +50,12 @@ const def: Languages = {
     previousPage: "previous page",
     firstPage: "first page",
     lastPage: "last page",
+    playersSortName: "sort by name",
+    playersSortCPM: "sort by cpm",
+    playersSortScore: "sort by score",
+    gamesSortRunning: "sort by name",
+    gamesSortPlayers: "sort by player count",
+    reverseSort: "reverse sort",
   },
   de: {
     login: "Einloggen",
