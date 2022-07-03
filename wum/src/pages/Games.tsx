@@ -14,41 +14,6 @@ type GamesProps = {
   onJoin: (game_id: number) => void;
 }
 
-const games_mock = [{
-  "id": 0,
-  "running": false,
-  "currentWord": 0,
-  "players": [0, 1, 2, 3],
-  "owner": 0,
-  "winner": 0,
-  "points": []
-
-}, {
-  "id": 1,
-  "running": true,
-  "currentWord": 4,
-  "players": [4, 5, 6],
-  "owner": 5,
-  "winner": 0,
-  "points": []
-}];
-
-const players_mock = [
-  "nigger",
-  "hello",
-  "world",
-  "fuck you",
-  "haha",
-  "melvin",
-].map((name, i) => {
-  return {
-    id: i,
-    name: name,
-    best_cpm: 0,
-    best_score: 0,
-  }
-});
-
 export default function Games(props: GamesProps) {
   let _ = props;
   const language = useLanguageContext();
@@ -89,8 +54,8 @@ export default function Games(props: GamesProps) {
     }
   }) : [], [games.page, games.pages.length]);
 
-  return 
-  (<div className="ReactTable">
+  return (
+  <div className="ReactTable">
       <button onClick={() => {
         dispatch_leaderboard({
           type: "invalidate",
@@ -98,7 +63,7 @@ export default function Games(props: GamesProps) {
         dispatch_games({
           type: "invalidate",
         });
-      }}>refresh</button>
+      }}>{ld.formatString(ld.refresh)}</button>
       <table>
         <thead>
           <td>{ld.formatString(ld.gameIsRunning)}</td>
@@ -117,7 +82,7 @@ export default function Games(props: GamesProps) {
               {game.player_count}
             </td>
             <td>
-              <button onClick={() => props.onJoin(game.id)}>join</button>
+              <Link to="/Game" onClick={() => props.onJoin(game.id)}>{ld.formatString(ld.join)}</Link>
             </td>
           </tr>))}
         </tbody>

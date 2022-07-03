@@ -11,21 +11,34 @@ type MenuProps = {
   onLanguageChanged: LanguageUpdate;
   onThemeChanged: ThemeUpdate;
 };
+type AccountProps={
+  /*
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const handleCloseMenu = () => {
+    setIsMenuOpen(false);
+  };
+  const handleStateChange = (state: { isOpen: boolean | ((prevState: boolean) => boolean); }) => {
+    setIsMenuOpen(state.isOpen);
+  };*/
+  onClose:()=> void;
+  };
 
-function AccountOptions() {
+function AccountOptions(props:AccountProps) {
+  
   const user = useUserContext();
+
   if (!user.loggedIn) {
     return (
       <div>
-        <Link id="dashboard" className="bm-item menu-item" to="/">
+        <Link onClick={() => props.onClose()} id="dashboard" className="bm-item menu-item" to="/">
           {ld.formatString(ld.home)}
         </Link>
         <br />
-        <Link id="login" className="bm-item menu-item" to="/login">
+        <Link onClick={() => props.onClose()} id="login" className="bm-item menu-item" to="/login">
           {ld.formatString(ld.login)}
         </Link>
         <br />
-        <Link id="register" className="bm-item menu-item" to="/register">
+        <Link onClick={() => props.onClose()} id="register" className="bm-item menu-item" to="/register">
           {ld.formatString(ld.register)}
         </Link>
       </div>
@@ -35,11 +48,11 @@ function AccountOptions() {
       <div>
         <label className="bm-user">{user.userName}</label>
         <br />
-        <Link id="dashboard" className="bm-item menu-item" to="/">
+        <Link onClick={() => props.onClose()} id="dashboard" className="bm-item menu-item" to="/">
           {ld.formatString(ld.dashboard)}
         </Link>
         <br />
-        <Link id="logout" className="bm-item menu-item" to="/logout">
+        <Link onClick={() => props.onClose()} id="logout" className="bm-item menu-item" to="/logout">
           {ld.formatString(ld.logout)}
         </Link>
       </div>
@@ -51,24 +64,32 @@ export function Menu(props: MenuProps) {
   const lang = useLanguageContext();
 
   ld.setLanguage(lang);
-
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const handleCloseMenu = () => {
+    setIsMenuOpen(false);
+  };
+  const handleStateChange = (state: { isOpen: boolean | ((prevState: boolean) => boolean); }) => {
+    setIsMenuOpen(state.isOpen);
+  };
   return (
-    <BurgerMenu>
-      <AccountOptions />
-      <Link className="menu-item" to="/leaderboards">
+    <BurgerMenu
+    isOpen={isMenuOpen}
+    onStateChange={handleStateChange}> 
+      <AccountOptions onClose={handleCloseMenu} />
+      <Link onClick={() => handleCloseMenu()} className="menu-item" to="/leaderboards">
         {ld.formatString(ld.leaderboards)}
       </Link>
-      <Link className="menu-item" to="/games">
+      <Link onClick={() => handleCloseMenu()} className="menu-item" to="/games">
         {ld.formatString(ld.games)}
       </Link>
-      <Link id="about" className="menu-item" to="/about">
+      <Link onClick={() => handleCloseMenu()} id="about" className="menu-item" to="/about">
         {ld.formatString(ld.about)}
       </Link>
 
 
       <div className="bm-bottompane">
-        <button className="bm-light" onClick={(e) => props.onThemeChanged('light')}>light</button>
-        <button className="bm-dark" onClick={(e) => props.onThemeChanged('dark')}>dark</button>
+        <button id="light" className="bm-light" onClick={(e) => props.onThemeChanged('light')}>{ld.formatString(ld.light)}</button>
+        <button id="dark" className="bm-dark"  onClick={(e) => props.onThemeChanged('dark')}>{ld.formatString(ld.dark)}</button>
         <br ></br>
         {Flags.map((country) => {
           return (
@@ -76,6 +97,7 @@ export function Menu(props: MenuProps) {
               alt={country.code}
               src={country.flagFilename}
               onClick={() => props.onLanguageChanged(country.code)}
+              
               className="flag"
             /></button>
           );

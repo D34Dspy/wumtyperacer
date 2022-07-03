@@ -5,6 +5,7 @@ import { useState, useEffect, useReducer } from "react";
 import useLeaderboard from '../core/Leaderboard'
 import { useUnmapper } from '../core/Pages';
 import Cfg from '../core/Config';
+import '../assets/table.css'
 
 export default function Leaderboard() {
     const language = useLanguageContext();
@@ -24,7 +25,8 @@ export default function Leaderboard() {
 
     const data = React.useMemo(() => leaderboard.pages.length > 0 ? leaderboard.pages[leaderboard.page].indices.map(useUnmapper(leaderboard.content)) : [], [leaderboard.page, leaderboard.pages.length]);
 
-    return (<div className="ReactTable">
+    return ( //<div className="ReactTable">
+        <div className="table_box">
         <button onClick={() => {
             dispatch({
                 type: "invalidate",
@@ -38,15 +40,9 @@ export default function Leaderboard() {
             </thead>
             <tbody>
                 {data.map((player) => (<tr>
-                    <td>
-                        {player.name}
-                    </td>
-                    <td>
-                        {player.best_cpm}
-                    </td>
-                    <td>
-                        {player.best_score}
-                    </td>
+                    <td>{player.name}</td>
+                    <td>{player.best_cpm}</td>
+                    <td>{player.best_score}</td>
                 </tr>))}
             </tbody>
         </table>

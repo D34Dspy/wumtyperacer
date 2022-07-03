@@ -242,3 +242,17 @@ light and dark theme button
   }
 }
 
+@media screen and (max-height: 500px) {
+  .bm-menu {
+    background: #373a47;
+    padding: 0.5em 1.5em 0;
+    font-size: 1.15em;
+  }
+  .bm-burger-button {
+    position: fixed;
+    width: 2.7em;
+    height: 2em;
+    left: 1em;
+    top: 2em;
+  }
+}
