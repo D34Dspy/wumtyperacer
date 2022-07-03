@@ -21,23 +21,22 @@ export default function Games(props: GamesProps) {
 
   const [leaderboard, dispatch_leaderboard] = useLeaderboard(true);
   const [games, dispatch_games] = useGames();
+  const [isFetched, setIsFetched] = useState(false);
 
-  if (leaderboard.initialized === false) {
+  if (isFetched === false) {
     Cfg.get("/players/",
       (players) => dispatch_leaderboard({ type: "populate", content: players }),
       (response) => {
         console.log(response);
         throw "unable to acquire players";
       });
-
-  }
-  if (games.initialized === false) {
     Cfg.get("/games/",
       (games) => dispatch_games({ type: "populate", content: games }),
       (response) => {
         console.log(response);
         throw "unable to acquire games";
       });
+    setIsFetched(true);
   }
 
   const unmapper = useUnmapper(games.content);
@@ -54,8 +53,8 @@ export default function Games(props: GamesProps) {
     }
   }) : [], [games.page, games.pages.length]);
 
-  return (
-  <div className="ReactTable">
+  return ( //<div className="ReactTable">
+    <div className="table_box">
       <button onClick={() => {
         dispatch_leaderboard({
           type: "invalidate",
@@ -64,26 +63,23 @@ export default function Games(props: GamesProps) {
           type: "invalidate",
         });
       }}>{ld.formatString(ld.refresh)}</button>
+      <button onClick={() => dispatch_games({ type: "next" })}>{ld.formatString(ld.nextPage)}</button>
+      <button onClick={() => dispatch_games({ type: "previous" })}>{ld.formatString(ld.previousPage)}</button>
+      <button onClick={() => dispatch_games({ type: "begin" })}>{ld.formatString(ld.firstPage)}</button>
+      <button onClick={() => dispatch_games({ type: "end" })}>{ld.formatString(ld.lastPage)}</button>
       <table>
         <thead>
-          <td>{ld.formatString(ld.gameIsRunning)}</td>
-          <td>{ld.formatString(ld.gameOwner)}</td>
-          <td>{ld.formatString(ld.gameParticipants)}</td>
+          <tr>
+            <th>{ld.formatString(ld.gameIsRunning)}</th>
+            <th>{ld.formatString(ld.gameOwner)}</th>
+            <th>{ld.formatString(ld.gameParticipants)}</th>
+          </tr>
         </thead>
         <tbody>
-          {data.map((game) => (<tr>
-            <td>
-              {game.running}
-            </td>
-            <td>
-              {game.owner_name}
-            </td>
-            <td>
-              {game.player_count}
-            </td>
-            <td>
-              <Link to="/Game" onClick={() => props.onJoin(game.id)}>{ld.formatString(ld.join)}</Link>
-            </td>
+          {data.map((game) => (<tr key={game.id}>
+            <td>{game.running}</td>
+            <td>{game.owner_name}</td>
+            <td>{game.player_count}</td>
           </tr>))}
         </tbody>
       </table>

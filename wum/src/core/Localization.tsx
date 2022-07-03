@@ -45,6 +45,11 @@ const def: Languages = {
     dark: "dark",
     repeatPassword: "Repeat password",
     join: "join",
+    refresh: "refresh",
+    nextPage: "next page",
+    previousPage: "previous page",
+    firstPage: "first page",
+    lastPage: "last page",
   },
   de: {
     login: "Einloggen",

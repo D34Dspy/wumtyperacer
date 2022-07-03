@@ -10,41 +10,54 @@ import '../assets/table.css'
 export default function Leaderboard() {
     const language = useLanguageContext();
     const [isFetched, setIsFetched] = useState(false);
+    const [leaderboard, dispatch] = useLeaderboard();
 
-    const [leaderboard, dispatch] = useLeaderboard(true);
-
-    if (leaderboard.initialized === false) {
+    if (isFetched === false) {
         Cfg.get("/players/",
-            (players) => dispatch({ type: "populate", content: players }),
+            (players) => dispatch({ type: "populate", content: players.map((player: any) => {
+                return {
+                    id: player["id"],
+                    name: player["name"],
+                    best_score: player["bestPoints"],
+                    best_cpm: player["bestCharsPerSecond"],
+                }
+            }) }),
             (response) => {
                 console.log(response);
                 throw "unable to acquire players";
             });
-
+        setIsFetched(true);
     }
 
-    const data = React.useMemo(() => leaderboard.pages.length > 0 ? leaderboard.pages[leaderboard.page].indices.map(useUnmapper(leaderboard.content)) : [], [leaderboard.page, leaderboard.pages.length]);
+    const data = React.useMemo(() => leaderboard.pages.length > 0 ? leaderboard.pages[leaderboard.page].indices.map(useUnmapper(leaderboard.content)) : [], [isFetched, leaderboard.page, leaderboard.pages.length]);
+
+    console.log(leaderboard)
+    console.log(data)
 
     return ( //<div className="ReactTable">
         <div className="table_box">
-        <button onClick={() => {
-            dispatch({
-                type: "invalidate",
-            });
-        }}>refresh</button>
-        <table>
-            <thead>
-                <td>{ld.formatString(ld.playerName)}</td>
-                <td>{ld.formatString(ld.playerCPM)}</td>
-                <td>{ld.formatString(ld.playerScore)}</td>
-            </thead>
-            <tbody>
-                {data.map((player) => (<tr>
-                    <td>{player.name}</td>
-                    <td>{player.best_cpm}</td>
-                    <td>{player.best_score}</td>
-                </tr>))}
-            </tbody>
-        </table>
-    </div>);
+            <button onClick={() => {
+                setIsFetched(false)
+            }}>{ld.formatString(ld.refresh)}</button>
+            <button onClick={() => dispatch({ type: "next" })}>{ld.formatString(ld.nextPage)}</button>
+            <button onClick={() => dispatch({ type: "previous" })}>{ld.formatString(ld.previousPage)}</button>
+            <button onClick={() => dispatch({ type: "begin" })}>{ld.formatString(ld.firstPage)}</button>
+            <button onClick={() => dispatch({ type: "end" })}>{ld.formatString(ld.lastPage)}</button>
+            <table>
+                <thead>
+                    <tr>
+                        <th>{ld.formatString(ld.playerName)}</th>
+                        <th>{ld.formatString(ld.playerCPM)}</th>
+                        <th>{ld.formatString(ld.playerScore)}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {data.map((player) => (<tr key={player.id}>
+                        <td>{player.name}</td>
+                        <td>{player.best_cpm}</td>
+                        <td>{player.best_score}</td>
+                    </tr>))}
+                </tbody>
+            </table>
+        </div>);
 }

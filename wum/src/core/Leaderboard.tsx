@@ -54,6 +54,7 @@ function Reducer(
         const { content } = action as PopulateAction;
         state.content = content;
         type = state.method;
+        state.initialized = true;
     } else if (action.type === "toggle") {
         type = state.method;
         state.reverse = !state.reverse;

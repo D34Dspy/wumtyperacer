@@ -47,8 +47,8 @@ export function usePages < T > (indices: number[], step: number = MaxItemsPerPag
     const pageCount = Math.floor(size / step) + (size % step > 0 ? 1 : 0);
     var pages: Page[] = [];
     for (var i = 0; i < pageCount; i++) {
-        const startIndex = i * pageCount;
-        const items = indices.slice(startIndex, Math.max(size, startIndex + (pageCount - 1)));
+        const startIndex = i * step;
+        const items = indices.slice(startIndex, Math.min(size, startIndex + step));
         pages.push({
             indices: items
         });
@@ -101,13 +101,12 @@ export class PageContext {
     }
 
     next(): PageContext {
-        this._container.page += 1;
-        this._container.page = Math.min(this._container.page + 1, Math.max(0, this._container.pages.length - 1));
+        this._container.page = Math.min(this._container.page + 1, this._container.pages.length - 1);
         return this;
     }
 
     previous(): PageContext {
-        this._container.page = Math.min(this._container.page - 1, Math.max(0, this._container.pages.length - 1));
+        this._container.page = Math.max(this._container.page - 1, 0);
         return this;
     }
 

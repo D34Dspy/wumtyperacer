@@ -47,13 +47,10 @@ function App() {
     setUser(Guest);
   };
 
-<<<<<<< HEAD
   const handleJoin = (id: number) => {
     let _= id;
   };
-=======
 
->>>>>>> origin/css
 
   return (
     <LanguageContext.Provider value={language}>
