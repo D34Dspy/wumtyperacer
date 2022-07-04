@@ -6,7 +6,7 @@ export default function About() {
   const language = useLanguageContext();
   ld.setLanguage(language);
   return (
-    <div>
+    <div className='log_box'>
       <label>{ld.formatString(ld.aboutCreator)}</label>
       <br />
       <label>{ld.formatString(ld.aboutIssuers)}</label>

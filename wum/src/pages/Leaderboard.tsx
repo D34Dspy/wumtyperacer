@@ -40,33 +40,37 @@ export default function Leaderboard() {
 
     return ( //<div className="ReactTable">
         <div className="table_box">
-            <a>{leaderboard.reverse ? "reversed" : "normal"}</a>
-            <button onClick={() => {
+
+            <a className="table-heading-refresh">Sortierung {leaderboard.reverse ? "reversed" : "normal"}</a>
+            <button className='table-button-refresh' onClick={() => {
                 setIsFetched(false)
             }}>{ld.formatString(ld.refresh)}</button>
-            <button onClick={() => dispatch({ type: "previous" })}>{ld.formatString(ld.previousPage)}</button>
-            <button onClick={() => dispatch({ type: "next" })}>{ld.formatString(ld.nextPage)}</button>
-            <button onClick={() => dispatch({ type: "begin" })}>{ld.formatString(ld.firstPage)}</button>
-            <button onClick={() => dispatch({ type: "end" })}>{ld.formatString(ld.lastPage)}</button>
-            <button onClick={() => dispatch({ type: "toggle" })}>{ld.formatString(ld.reverseSort)}</button>
-            <button onClick={() => dispatch({ type: "sortname" })}>{ld.formatString(ld.playersSortName)}</button>
-            <button onClick={() => dispatch({ type: "sortcpm" })}>{ld.formatString(ld.playersSortCPM)}</button>
-            <button onClick={() => dispatch({ type: "sortscore" })}>{ld.formatString(ld.playersSortScore)}</button>
-            <table>
+            <br></br>
+
+            <button className='table-button-bottom' onClick={() => dispatch({ type: "toggle" })}>{ld.formatString(ld.reverseSort)}</button>
+            <button className='table-button-bottom' onClick={() => dispatch({ type: "sortname" })}>{ld.formatString(ld.playersSortName)}</button>
+            <button className='table-button-bottom' onClick={() => dispatch({ type: "sortcpm" })}>{ld.formatString(ld.playersSortCPM)}</button>
+            <button className='table-button-bottom' onClick={() => dispatch({ type: "sortscore" })}>{ld.formatString(ld.playersSortScore)}</button>
+            <table className='tablesos'>
                 <thead>
                     <tr>
-                        <th>{ld.formatString(ld.playerName)}</th>
-                        <th>{ld.formatString(ld.playerCPM)}</th>
-                        <th>{ld.formatString(ld.playerScore)}</th>
+                        <th className='table_head'>{ld.formatString(ld.playerName)}</th>
+                        <th className='table_head'>{ld.formatString(ld.playerCPM)}</th>
+                        <th className='table_head'>{ld.formatString(ld.playerScore)}</th>
                     </tr>
                 </thead>
                 <tbody>
                     {data.map((player, i) => (<tr key={i}>
-                        <td>{player.name}</td>
-                        <td>{player.best_cpm}</td>
-                        <td>{player.best_score}</td>
+                        <td className='table_text'>{player.name}</td>
+                        <td className='table_text'>{player.best_cpm}</td>
+                        <td className='table_text'>{player.best_score}</td>
                     </tr>))}
                 </tbody>
-            </table>
+                </table>
+                <button className='table-button-bottom' onClick={() => dispatch({ type: "begin" })}>{ld.formatString(ld.firstPage)}</button>
+                <button className='table-button-bottom' onClick={() => dispatch({ type: "previous" })}>{ld.formatString(ld.previousPage)}</button>
+            <button className='table-button-bottom' onClick={() => dispatch({ type: "next" })}>{ld.formatString(ld.nextPage)}</button>
+            <button className='table-button-bottom' onClick={() => dispatch({ type: "end" })}>{ld.formatString(ld.lastPage)}</button>
+            
         </div>);
 }

@@ -526,25 +526,54 @@
     margin-left: 2em;
 }
 
+.tablesos{
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
 
-  .table_button{
-    border: 2px solid black;
-    color: black;
-    padding: 0.2em 0.3em;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 1.7em;
-    margin-top: 2%;
-    cursor: pointer;
-    margin-bottom: 1em;
+.table-button-bottom{
+  width: 19%;
+  margin-left: 3%;
+  margin-right: 3%;
+  font-size: 1.3em;
+  font-weight: 750;
+  
+  margin-bottom: 0.25em;
+}
+.table-button-bottom:active{
+  opacity: 50%;
+  transform:  translateY(2px);
+}
+.table-button-refresh{
+  font-size: 1.7em;
+  margin-top: 0.25em;
+  margin-bottom: 0.3em;
+    margin-left: 2em;
+
+}
+.table-button-refresh:active{
+  transform: rotate(90deg) translateX(2px);
+  opacity: 50%;
+}
+.table-heading-refresh{
+  font-size: 2em;
+  font-weight: 700;
+  margin-left: 2em;
+
+
+}
+.table_head{
+width: 8ch;
+font-size: 1.5em;
+font-weight: 800;
+
 }
 
 @media screen and (max-height: 500px) {
     .table_box{
       margin: auto;
       width: 80%;
-      margin-top: 1em;
+      margin-top: 0.5em;
       
       
       border: 3px solid rgb(0, 0, 0);
@@ -554,20 +583,41 @@
     
     }
   .table_text{
-    font-size: 1.6em;
+    font-size: 1.1em;
     color: var(--fore-color);
     font-weight: 550;
     float: middle;
   }
-  .table_button{
-    border: 2px solid black;
-    color: black;
-    padding: 0.2em 0.3em;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 1.4em;
-    margin-top: 0.2em;
-    cursor: pointer;
-    margin-bottom: 0.2em;
+  .table-button-bottom{
+    width: 23%;
+    margin-left: 1%;
+    margin-right: 1%;
+    font-size: 1.1em; 
+    margin-bottom: 0.1em;
+    margin-top: -0.1em;
   }}
+  @media  screen and (orientation: portrait){
+    .table-button-bottom{
+      width: 25%;
+margin-left:0%;
+margin-right:0%;
+margin-top: 2%;
+margin-bottom: 2%;
+      font-size: 1.2em;
+
+    }
+    .table_text{
+      max-width: 8ch;
+    }
+    .table_box{
+
+      width: 90%;
+    margin-top: max(3.5em, 5%);
+      border: 3px solid rgb(0, 0, 0);
+      background-color: var(--main-color);
+      opacity: 0.7;
+    padding:1%
+    }
+  
+  }
+

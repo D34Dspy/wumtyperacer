@@ -90,7 +90,7 @@ export function Menu(props: MenuProps) {
       <div className="bm-bottompane">
         <button id="light" className="bm-light" onClick={(e) => props.onThemeChanged('light')}>{ld.formatString(ld.light)}</button>
         <button id="dark" className="bm-dark"  onClick={(e) => props.onThemeChanged('dark')}>{ld.formatString(ld.dark)}</button>
-        <br ></br>
+        
         {Flags.map((country) => {
           return (
             <button key={country.code} className="bm-flag"><img

@@ -18,7 +18,7 @@
 
   /* Our sidebar item styling */
   text-decoration: none;
-  margin-bottom: 10px;
+  margin-bottom: 0.5em;
   color: #d1d1d1;
   transition: color 0.2s;
   font-size: 1.7em;
@@ -90,6 +90,7 @@
     margin-right: 3%;
     width: fit-content;
     border: transparent;
+    margin-top: 1.0em;
 }
 .bm-flag:active{
   transform: translateY(4px);
@@ -247,6 +248,7 @@ light and dark theme button
     background: #373a47;
     padding: 0.5em 1.5em 0;
     font-size: 1.15em;
+    
   }
   .bm-burger-button {
     position: fixed;
@@ -254,5 +256,12 @@ light and dark theme button
     height: 2em;
     left: 1em;
     top: 2em;
+    
   }
+.bm-bottompane{
+  bottom: 23%;
+}
+.bm-item{
+  margin-bottom: 0.2em;
+}
 }
