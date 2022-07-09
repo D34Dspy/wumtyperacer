@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLanguageContext, LanguageDef as ld, localizeId } from "../core/Localization";
 import { Requirements, RequirementsOk, checkRequirements } from "../core/User";
+import useDoOnce from "../core/DoOnce";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import '../assets/PlayerCreate.css'
@@ -11,32 +12,34 @@ type RegisterProps = {
   onRegister: RegisterEvent;
 };
 
-type RequireProps = {
-  requirements: Requirements,
-};
-
 export default function Register(props: RegisterProps) {
+  let navigate = useNavigate();
+
+  const language = useLanguageContext();
+  ld.setLanguage(language);
+
   const [userName, setUserName] = useState("");
   const [passWord, setPassWord] = useState("");
   const [requirements, setRequirements] = useState(RequirementsOk)
-  const language = useLanguageContext();
-  let navigate = useNavigate();
-  ld.setLanguage(language);
+  const invokeOnRegister = useDoOnce((username: string, password: string) => {
+    props.onRegister(username, password);
+    navigate('/about');
+  });
 
   const registerHook = (username: string, password: string) => {
     console.log("hook started")
     const newRequirements = checkRequirements(username, password);
     if(newRequirements.valid) {
       console.log("requirements valid")
-      props.onRegister(username, password);
-      navigate('/about');
+      invokeOnRegister(); // api does not get sent twice, waits for the server
     }
-    else {
+    else if (newRequirements !== requirements) {
       console.log("requirements invalid")
       setRequirements(newRequirements);
       console.log(newRequirements);
     }
   };
+
   return (
     <div className="log_box">
       <label className="log_text">{ld.formatString(ld.username)}</label>
