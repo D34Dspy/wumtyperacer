@@ -62,7 +62,7 @@ export default function Register(props: RegisterProps) {
       <label className="log_text">{ld.formatString(ld.password)}</label>
       <br />
       <input className="log_pw"
-        id="password"
+        id="password" type="password"
         onChange={(e) => setPassWord(e.target.value)}
         value={passWord}
       ></input>
@@ -70,7 +70,7 @@ export default function Register(props: RegisterProps) {
       <label className="log_text">{ld.formatString(ld.repeatPassword)}</label>
       <br />
       <input className="log_pw"
-        id="password2"
+        id="password2" type="password"
 
       ></input>
       <br />

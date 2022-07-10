@@ -4,7 +4,6 @@ import useGames from "../core/Games";
 import useLeaderboard, { playerById } from "../core/Leaderboard";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useTable } from 'react-table'
 import Cfg from '../core/Config';
 import { useUnmapper } from '../core/Pages';
 import "../assets/table.css";

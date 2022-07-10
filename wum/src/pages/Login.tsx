@@ -29,6 +29,7 @@ export default function Login(props: LoginProps) {
       <br />
       <input className="log_pw"
         id="password"
+        type="password"
         onChange={(e) => setPassWord(e.target.value)}
         value={passWord}
       ></input>
