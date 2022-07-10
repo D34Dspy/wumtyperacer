@@ -66,6 +66,25 @@ body {
     margin-top: 2%;
     cursor: pointer;
     margin-bottom: 1em;
+    margin-left: 0.2em;
+    margin-right: 0.3em;
+}
+.menüpfeil{
+  font-size: 2em;
+  color: var(--fore-color);
+  font-weight: 650;
+  float:left;
+  margin-left: 2em;
+  margin-top: -0.25em;
+  font-size: 3em;
+}
+.log_pw{
+  font-size: 2em;
+  margin-top: 1%;
+  margin-bottom: 2%;
+  width: 70%;
+  border: 2px solid black;
+-webkit-text-security: disc;
 }
 @media screen and (max-height: 500px) {
   .log_box{

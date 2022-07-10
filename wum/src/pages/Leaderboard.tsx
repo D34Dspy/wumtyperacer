@@ -41,7 +41,7 @@ export default function Leaderboard() {
     return ( //<div className="ReactTable">
         <div className="table_box">
 
-            <a className="table-heading-refresh">Sortierung {leaderboard.reverse ? "reversed" : "normal"}</a>
+            <a className="table-heading-refresh">{ld.formatString(ld.sort)} {leaderboard.reverse ? "reversed" : "normal"}</a>
             <button className='table-button-refresh' onClick={() => {
                 setIsFetched(false)
             }}>{ld.formatString(ld.refresh)}</button>

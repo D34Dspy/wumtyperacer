@@ -56,6 +56,8 @@ const def: Languages = {
     gamesSortRunning: "sort by name",
     gamesSortPlayers: "sort by player count",
     reverseSort: "reverse sort",
+    menu:"menu",
+    sort:"sorting:"
   },
   de: {
     login: "Einloggen",
@@ -101,6 +103,8 @@ const def: Languages = {
     playerName: "Name",
     playerCPM: "BPM",
     playerScore: "Punkte",
+    menu:"Menü",
+    sort:"Sortierung:",
   },
 };
 

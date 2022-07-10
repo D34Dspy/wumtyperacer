@@ -13,7 +13,7 @@ export default function About() {
       <br />
       <label>{ld.formatString(ld.aboutInstitute)}</label>
       <br />
-      <TypeArea text="Der hackfleisch hassende Zerhacker trolololo ich bin hier konrad ist hier wir alle sind hier, nur am hier sein, weil wir es können"></TypeArea>
+      <TypeArea text="Brought to you by Konrad Elsner und Domenic Reckrühm"></TypeArea>
     </div>
   );
 }
