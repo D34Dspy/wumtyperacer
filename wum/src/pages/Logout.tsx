@@ -14,8 +14,8 @@ export default function Logout(props: LogoutProps) {
     <div className='log_box'>
       <label className='log_text'>{ld.formatString(ld.confirmDelete)}</label>
       <br />
-      <Link className='log_button' to="/login"><button onClick={() => props.onLogout()}>{ld.formatString(ld.logout)}</button></Link>
-      <Link className='log_button' to="/games"><button onClick={() => props.onCancel()}>{ld.formatString(ld.cancel)}</button></Link>
+      <Link  to="/login"><button className='log_button' onClick={() => props.onLogout()}>{ld.formatString(ld.logout)}</button></Link>
+      <Link  to="/games"><button className='log_button' onClick={() => props.onCancel()}>{ld.formatString(ld.cancel)}</button></Link>
       <br />
     </div>
   );
