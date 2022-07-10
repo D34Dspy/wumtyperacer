@@ -1,19 +1,19 @@
 self.__precacheManifest = [
   {
-    "revision": "bae2b5420646af2023c7",
-    "url": "/wumtyperacer/static/css/main.7c517028.chunk.css"
+    "revision": "c2427f051422165fab73",
+    "url": "/wumtyperacer/static/css/main.a85942d4.chunk.css"
   },
   {
-    "revision": "bae2b5420646af2023c7",
-    "url": "/wumtyperacer/static/js/main.fd054f0f.chunk.js"
+    "revision": "c2427f051422165fab73",
+    "url": "/wumtyperacer/static/js/main.8bd05e6f.chunk.js"
   },
   {
     "revision": "6a2523538cd33760d0f5",
     "url": "/wumtyperacer/static/js/runtime~main.6556cbc0.js"
   },
   {
-    "revision": "211bcbb5d8231e733fde",
-    "url": "/wumtyperacer/static/js/2.e604d25b.chunk.js"
+    "revision": "33c5a6f3a623cd93d0e4",
+    "url": "/wumtyperacer/static/js/2.5d7a4d39.chunk.js"
   },
   {
     "revision": "b2871250ed127b512992",
@@ -24,7 +24,7 @@ self.__precacheManifest = [
     "url": "/wumtyperacer/static/media/UnitedKingdom.0db8981a.png"
   },
   {
-    "revision": "6689ec7e1e491496486959b48f13ec38",
+    "revision": "54cdfc845fe99c6ef97c1a5ea005cdad",
     "url": "/wumtyperacer/index.html"
   }
 ];
