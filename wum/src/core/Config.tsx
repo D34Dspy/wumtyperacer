@@ -26,6 +26,19 @@ const Config = {
             .then((response) => response.json())
             .then(onSuccess)
             .catch(onFailure);
+    },
+    delete: async (api: string, onSuccess: (obj: any) => void, onFailure: (obj: any) => void) => {
+        const options = {
+            method: "DELETE",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json;charset=UTF-8",
+            },
+        };
+        await fetch(`${Config.backend}${api}`, options)
+            .then((response) => response.json())
+            .then(onSuccess)
+            .catch(onFailure);
     }
 }
 

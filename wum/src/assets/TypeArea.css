@@ -4,14 +4,17 @@
 
 .correct {
   color: #00ad00;
+  font-family: monospace;
 }
 
 .incorrect {
   color: #ad0000;
+  font-family: monospace;
 }
 
 .future {
   color: #808080;
+  font-family: monospace;
 }
 
 .area {

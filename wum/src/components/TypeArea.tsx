@@ -3,7 +3,7 @@ import { Component, Reducer } from "react";
 import { createContext, useContext, useReducer } from "react";
 import { createNoSubstitutionTemplateLiteral } from "typescript";
 import "../assets/TypeArea.css";
-import useTypeRecord from '../core/TypeRecord';
+import useTypeRecord, { unwrapEvent } from '../core/TypeRecord';
 
 type TypeAreaProps = {
   text: string;
@@ -13,16 +13,12 @@ type TypeAreaProps = {
 export default function TypeArea(props: TypeAreaProps) {
   const [content, dispatch] = useTypeRecord(props.text);
 
-  const handleInput = (char: string) => {
-    dispatch({
-      type: "char",
-      content: char,
-    });
-  };
-
   const splitCurrentWord = () => {
     const supposedWord = content.words[content.wordIndex];
     const inputWord = content.input;
+
+    if (inputWord.length == 0)
+      return [false, "", supposedWord];
 
     return [
       inputWord === supposedWord.slice(0, inputWord.length),
@@ -33,24 +29,30 @@ export default function TypeArea(props: TypeAreaProps) {
 
   let cursor;
   if (!content.complete) {
-    const [isCorrect, left, right] = splitCurrentWord();
-    cursor = (
-      <span>
-        <label className={isCorrect ? "correct" : "incorrect"}>{left}</label>
-        <label className="future next">
-          {right + String.fromCharCode(9251)}
-        </label>
-      </span>
-    );
+    const [isCorrect, content, future] = splitCurrentWord();
+    if (future !== undefined) {
+      cursor = (
+        <span>
+          <label className={isCorrect ? "correct" : "incorrect"}>{content}</label>
+          <label className="future next">
+            {future + String.fromCharCode(9251)}
+          </label>
+        </span>
+      );
+    }
   }
+  console.log(content.complete)
 
   return (
     <div
       tabIndex={-1}
       id="typeArea"
       className="area"
-      onKeyDown={(e) => handleInput((e.ctrlKey ? "C" : "") + e.key)}
-    >
+      onKeyUp={(e) => {
+        const event = unwrapEvent(e);
+        if(event.type !== "none")
+          dispatch(unwrapEvent(e))
+      }}>
       {content.words.slice(0, content.wordIndex).map((word, index) => (
         <label key={index} className="correct next">
           {word + String.fromCharCode(9251)}

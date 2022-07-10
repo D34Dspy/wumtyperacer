@@ -7,9 +7,14 @@ import { useState } from "react";
 import '../assets/PlayerCreate.css'
 import '../assets/log.css'
 
-type RegisterEvent = (userName: string, passWord: string) => void;
+type RegisterEvent = (userName: string, passWord: string) => boolean;
 type RegisterProps = {
   onRegister: RegisterEvent;
+};
+
+type RegisterForm = {
+  userName: string,
+  passWord: string,
 };
 
 export default function Register(props: RegisterProps) {
@@ -21,9 +26,13 @@ export default function Register(props: RegisterProps) {
   const [userName, setUserName] = useState("");
   const [passWord, setPassWord] = useState("");
   const [requirements, setRequirements] = useState(RequirementsOk)
-  const invokeOnRegister = useDoOnce((username: string, password: string) => {
-    props.onRegister(username, password);
-    navigate('/about');
+  const invokeOnRegister = useDoOnce((form: RegisterForm) => {
+    if(props.onRegister(form.userName, form.passWord))
+    {
+      navigate('/about');
+      return true;
+    }
+    return false;
   });
 
   const registerHook = (username: string, password: string) => {
@@ -31,9 +40,9 @@ export default function Register(props: RegisterProps) {
     const newRequirements = checkRequirements(username, password);
     if(newRequirements.valid) {
       console.log("requirements valid")
-      invokeOnRegister(); // api does not get sent twice, waits for the server
+      invokeOnRegister({ userName: username, passWord: password }); // api does not get sent twice, waits for the server
     }
-    else if (newRequirements !== requirements) {
+    else {
       console.log("requirements invalid")
       setRequirements(newRequirements);
       console.log(newRequirements);

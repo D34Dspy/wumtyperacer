@@ -37,25 +37,21 @@ const minPass: Requirement[] = [
   { regex: /^.{8}/g, message: "passAtleast8Length" },
   { regex: /\d/g, message: "passAtleast1Digit" },
   { regex: /\w/g, message: "passAtleast1Letter" },
-  { regex: /\W/g, message: "passAtleast1Punct" },
+  { regex: /[.:;:-_#'+*~``?\\=})\](\[/{&¬%½$¼§³"²!¹]/g, message: "passAtleast1Punct" },
 ];
 
 export const UserContext = createContext<User>(Guest);
 export const useUserContext = () => useContext(UserContext);
 
 export function checkRequirements(username: string, password: string): Requirements {
-
   var userMsgs = [];
-  for (let i = 0; i < minUser.length; i++) {
-    const element = minUser[i];
-    if(!element.regex.test(username))
-      userMsgs.push(element.message);
-  }
+  if(username.length < 4)
+    userMsgs.push("userAtleast4Length")
 
   var passMsgs = [];
   for (let i = 0; i < minPass.length; i++) {
     const element = minPass[i];
-    if(!element.regex.test(password))
+    if(password.search(element.regex) == -1)
       passMsgs.push(element.message);
   }
 

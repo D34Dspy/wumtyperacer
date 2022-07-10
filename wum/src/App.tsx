@@ -28,23 +28,25 @@ function App() {
   const handleLogin = (userName: string, passWord: string) => {
     //const userId = 0;
     //setUser({ userId: userId, userName: userName, loggedIn: true });
-    console.log(userName);
-    console.log(passWord);
+    // console.log(userName);
+    // console.log(passWord);
   };
 
   const handleRegister = (userName: string, passWord: string) => {
+    console.log(userName)
+    console.log(passWord)
     Cfg.post('/players/', { name: userName }, 
     (response) => setUser({userId: response.id, userName: response.name, loggedIn: true}),
     (response) => {
       console.log(response)
       throw "unable to register";
     });
-    console.log(userName);
-    console.log(passWord);
+    console.log(user)
+    return user.loggedIn;
   };
 
   const handleLogout = () => {
-    setUser(Guest);
+    Cfg.delete(`/players/${user.userId}`, () => setUser(Guest), (response) => { throw response })
   };
 
   const handleJoin = (id: number) => {

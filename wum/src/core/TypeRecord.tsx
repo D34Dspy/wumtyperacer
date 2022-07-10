@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import React, { useReducer } from "react";
 
 export type State = {
   words: string[];
@@ -9,7 +9,7 @@ export type State = {
   complete: boolean;
 };
 
-type Command = { type: "erase" | "clear" | "backward" | "forward" | "begin" | "end" };
+type Command = { type: "none" | "erase" | "clear" | "backward" | "forward" | "begin" | "end" };
 type Content = {
   type: "populate" | "char",
   content: string
@@ -62,15 +62,17 @@ function useWrapper(state: State, action: Action) {
     moveIf: (expr: boolean, offset: number) => expr ? { letterIndex: letterIndex + offset } : {},
     insertIf: (expr: boolean, content: string) => {
       if(expr){
+        console.log("insert")
         const newInput = insert(input, letterIndex, content);
-        return { input: newInput, complete: newInput === words[wordIndex] && exceed }
+        return { input: newInput, complete: newInput === words[wordIndex] && wordIndex == words.length - 1 }
       }
       return {};
     },
     replaceIf: (expr: boolean, content: string) => {
       if(expr){
+        console.log("insert")
         const newInput = replace(input, letterIndex, content);
-        return { input: newInput, complete: newInput === words[wordIndex] && exceed }
+        return { input: newInput, complete: newInput === words[wordIndex] && wordIndex == words.length - 1 }
       }
       return {};
     }   
@@ -81,33 +83,60 @@ export function Reducer(
   state: State,
   action: Action
 ): State {
-  const { input, correct, letterIndex, type, space, insertable, content, currentWord, 
+  const { complete, input, correct, letterIndex, type, space, insertable, content, currentWord, 
     replaceIf, insertIf, advanceIf, eraseIf, moveIf } = useWrapper(state,action);
   switch(type) {
+    case "none":
+      return state;
     case "populate":
       return { ...clearState, words: content.split(" ") }
     case "char":
+      console.log(input + content)
       return { ...state, ...advanceIf(correct && space), ...insertIf(insertable && !space, content), 
         ...replaceIf(!insertable && !space, content), ...moveIf(letterIndex < currentWord.length - 1 , 1) };
     case "erase":
-      return { ...state, ...eraseIf(letterIndex != 0)};
+      console.log(erase(input, letterIndex));
+      return { ...state, ...eraseIf(!complete && input.length > 0)};
     case "clear":
       return { ...state, input: "", letterIndex: 0 }
     case "backward":
-      return { ...state, ...moveIf(letterIndex > 0, -1) };
+      return { ...state, ...moveIf(letterIndex > 0 && !complete, -1) };
     case "forward":
-      return { ...state, ...moveIf(letterIndex < input.length - 1, 1) };
+      return { ...state, ...moveIf(letterIndex < input.length - 1 && !complete, 1) };
     case "begin":
-      return { ...state, letterIndex: 0 };
+      return { ...state, ...moveIf(!complete, letterIndex) };
     case "end":
-      return { ...state, letterIndex: Math.max(input.length - 1, 0) };
+      return { ...state, ...moveIf(!complete, input.length - letterIndex) };
     default:
       throw `TypeRecord reducer unhandled action ${type}`;
   }
 }
 
-export function unwrapEvent() {
- // TODO
+const CharCodeRegex = /^.$/g;
+
+export function unwrapEvent<T>(event: React.KeyboardEvent<T>): Action {
+  switch(event.key) {
+    case "Backspace":
+      if(event.ctrlKey)
+        return { type: "clear" };
+      else return { type: "erase"};
+    case "ArrowLeft":
+      if(event.ctrlKey)
+        return { type: "begin"};
+      else return { type: "backward"};
+  case "ArrowRight":
+      if(event.ctrlKey)
+        return { type: "end"};
+      else return { type: "forward"};
+  case "ArrowUp":
+      return { type: "begin"};
+  case "ArrowDown":
+      return { type: "end"};
+  default:
+      if(event.key.match(CharCodeRegex) !== null)
+        return { type: "char", content: event.key };
+      return { type: "none" };
+  }
 }
 
 export function initialize(text: string) {
