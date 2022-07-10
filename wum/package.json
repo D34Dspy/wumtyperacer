@@ -21,7 +21,6 @@
     "react-localization": "^1.0.19",
     "react-router-dom": "^6.3.0",
     "react-scripts": "^2.1.8",
-    "react-table": "^7.8.0",
     "typescript": "^4.7.4",
     "web-vitals": "^2.1.4"
   },
@@ -52,6 +51,5 @@
     ]
   },
   "devDependencies": {
-    "@types/react-table": "^7.7.12"
   }
 }
